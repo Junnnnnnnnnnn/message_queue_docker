@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: my_rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"  # RabbitMQ 메시지 브로커 기본 포트
+      - "15672:15672" # RabbitMQ 관리 UI 포트
+    environment:
+      RABBITMQ_DEFAULT_USER: "admin"  # 기본 사용자 이름
+      RABBITMQ_DEFAULT_PASS: "password"  # 기본 비밀번호
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq  # 데이터 저장
+    networks:
+      - app
+
+volumes:
+  rabbitmq_data:
+    driver: local
+
+networks:
+  app:
+    external: true
+    name: app
+      
